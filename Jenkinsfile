@@ -9,6 +9,8 @@ pipeline {
             steps {
                 echo 'Setting up Python environment'
                 sh '''
+                # Use bash explicitly
+                bash -c "
                 # Ensure the correct Python version is being used
                 ${PYTHON_VERSION} --version
 
@@ -23,6 +25,7 @@ pipeline {
 
                 # Install dependencies
                 pip install -r requirements.txt
+                "
                 '''
             }
         }
@@ -30,11 +33,13 @@ pipeline {
             steps {
                 echo 'Running tests in virtual environment'
                 sh '''
+                bash -c "
                 # Activate virtual environment
                 source ${VENV_DIR}/bin/activate
 
                 # Run your test script or commands
-                python -c "print('Hello from Jenkins Pipeline with Python!')"
+                python -c 'print(\"Hello from Jenkins Pipeline with Python!\")'
+                "
                 '''
             }
         }
